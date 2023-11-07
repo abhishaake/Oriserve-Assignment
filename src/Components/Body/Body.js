@@ -1,18 +1,23 @@
+import { useEffect, useState } from "react";
 import styles from "./Body.module.css";
-import temp from "./logo192.png";
+import { IMAGE_URL } from "../Constants/URL";
 
-function Body() {
-  const imgArr = new Array(20).fill(temp);
+function Body({data}) {
+    const [photos, setPhotos] = useState([]);
+
+  useEffect(()=>{
+    setPhotos(data);
+  },[data])
 
   return (
     <>
       <div id="container" className={styles.container}>
         <div id="gallery" className={styles.gallery}>
           <div id="image-container" className={styles.imageContainer}>
-            {imgArr.map(function () {
+            {photos.map(function (photo) {
               return (
-                <div id="image-wrapper" className={styles.imageWrapper}>
-                  <img className={styles.image} src={temp}></img>
+                <div key={photo.id} id="image-wrapper" className={styles.imageWrapper}>
+                  <img className={styles.image} src={IMAGE_URL + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg"}></img>
                 </div>
               );
             })}
