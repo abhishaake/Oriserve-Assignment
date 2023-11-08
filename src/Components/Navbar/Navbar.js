@@ -1,6 +1,7 @@
 import styles from "./Navbar.module.css";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
+import { RECENT_PICS_URL, SEACRH_PICS_URL } from '../Constants/URL';
 
 function Navbar({ props }) {
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -9,6 +10,7 @@ function Navbar({ props }) {
 
 
   const handleCookies = (val) => {
+    if(!val) return;
     if (cookies.hasOwnProperty("queries")) {
       let q = cookies.queries.split(",");
       if (!q) {
@@ -40,13 +42,15 @@ function Navbar({ props }) {
   const update = (value) => {
     setSearchParam(value);
     handleCookies(value);
-    props.getSearchPic(value);
+    props.searchHandler("&text="+value);
+    props.getData(SEACRH_PICS_URL,1,"&text="+value);
     props.setSuggestionBox(false);
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      props.getSearchPic(searchParam);
+      props.searchHandler("&text="+searchParam);
+      props.getData(SEACRH_PICS_URL,1,"&text="+searchParam);
       handleCookies(searchParam);
       props.setSuggestionBox(false);
     }
