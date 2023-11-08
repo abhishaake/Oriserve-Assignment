@@ -5,10 +5,10 @@ import Navbar from './Components/Navbar/Navbar';
 import { useEffect,useState } from 'react';
 import { RECENT_PICS_URL, SEACRH_PICS_URL } from './Components/Constants/URL';
 import axios from "axios";
-
 function App() {
 
   const [photos, setPhotos] = useState([]);
+  const [showSuggestionBox, setShowSuggestionBox] = useState(false);
   useEffect(()=>{
     const getData=async()=>{
       try{
@@ -17,7 +17,7 @@ function App() {
         setPhotos(data.photos.photo);
       }
       catch(e){ 
-
+        //
       }
     }
 
@@ -31,17 +31,17 @@ function App() {
       setPhotos(data.photos.photo);
     }
     catch(e){ 
-
+      //
     }
   }
 
-  const check=(str)=>{
-    console.log(str);
+  const setSuggestionBox=(val)=>{
+    setShowSuggestionBox(val);
   }
 
   return (<>
-    <Navbar data={getSearchPic}/>
-    <Body data={photos}/>
+    <Navbar props={{getSearchPic,setSuggestionBox,showSuggestionBox}}/>
+    <Body props={{photos,setSuggestionBox}}/>
   </>
   );
 }
