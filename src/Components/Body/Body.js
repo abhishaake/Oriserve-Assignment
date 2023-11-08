@@ -15,7 +15,7 @@ function Body({props}) {
   });
 
   // to apply infinte scroll
-  const { ref: ref1, inView: myElementIsVisible } = useInView();
+  const { ref: scrollRef, inView: myElementIsVisible } = useInView();
 
   useEffect(()=>{
     if(!myElementIsVisible) return;
@@ -49,7 +49,7 @@ function Body({props}) {
     <>
       <div id="container" className={styles.container} onClick={()=>props.setSuggestionBox(false)}>
         <div id="gallery" className={styles.gallery}>
-          <div ref={ref1} id="image-container" className={styles.imageContainer}>
+          <div id="image-container" className={styles.imageContainer}>
 
             {showModal && 
                 <Modal
@@ -60,12 +60,12 @@ function Body({props}) {
                   <div><button onClick={()=>{setShowModal({show:false,data:null})}}>CLOSE X</button></div>
                   <img alt={showModal?.data?.title} src={IMAGE_URL + showModal?.data?.server + "/" + showModal?.data?.id + "_" + showModal?.data?.secret + ".jpg"}></img>
                 </Modal>}
-            {pics && pics.map(function (photo,index) {
+            {pics && Array.isArray(pics) && pics.map(function (photo,index) {
               return (
                 <div key={index} id="image-wrapper" className={styles.imageWrapper}>
                   
                   <img alt={photo.title?.slice(0,80)} onClick={()=>{setShowModal({show:true,data:photo})}}className={styles.image} src={IMAGE_URL + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg"}></img>
-                  {pics?.length-index===15 && <div ref={ref1}></div>}
+                  {pics?.length-index===15 && <div ref={scrollRef}></div>}
                 </div>
               );
             })}
@@ -74,7 +74,7 @@ function Body({props}) {
                 <p>No result found for : <span>{props?.onSearch?.text?.slice(6)}</span></p>
               </div>
             }
-            {pics?.length===0 && 
+            {!Array.isArray(pics) || pics?.length===0 && 
               <div style={{margin:'auto'}}>
                 <TailSpin
                   style={{margin:'0 auto'}}

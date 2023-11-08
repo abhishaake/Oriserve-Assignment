@@ -46,6 +46,7 @@ function Navbar({ props }) {
     props.searchHandler(true,"&text="+value); // setting the app to search mode
     props.getData(SEACRH_PICS_URL,1,"&text="+value); // fetching data
     props.setSuggestionBox(false); 
+    window.scrollTo(0, 0); //scroll top of the page
   };
 
   const handleKeyPress = (event) => {
@@ -61,6 +62,7 @@ function Navbar({ props }) {
       handleCookies(searchParam);
       props.setSuggestionBox(false);
     }
+    window.scrollTo(0, 0); // to scroll to top of the page
   };
 
   const onTextChangeHandler=(val)=>{
@@ -73,6 +75,7 @@ function Navbar({ props }) {
   useEffect(()=>{
     setTimeout(() => {
       handleCookies(searchParam); // only update cookie when user has searched for more than 3 char and data has been loaded successfully
+      window.scrollTo(0, 0); // to scroll to top of the page
     }, 500);
   },[props.showSuggestionBox]);
 
