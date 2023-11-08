@@ -41,7 +41,6 @@ function Body({props}) {
     overlay:{
       width: '100%',
       height: '100%',
-      
     }
   }
 
@@ -58,7 +57,7 @@ function Body({props}) {
                   className={styles.modal}
                 >
                   <div><button onClick={()=>{setShowModal({show:false,data:null})}}>CLOSE X</button></div>
-                  <img alt={showModal?.data?.title} src={IMAGE_URL + showModal?.data?.server + "/" + showModal?.data?.id + "_" + showModal?.data?.secret + ".jpg"}></img>
+                  <img alt={showModal?.data?.title} src={IMAGE_URL + showModal?.data?.server + "/" + showModal?.data?.id + "_" + showModal?.data?.secret + "_b"+ ".jpg"}></img>
                 </Modal>}
             {pics && Array.isArray(pics) && pics.map(function (photo,index) {
               return (
