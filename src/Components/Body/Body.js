@@ -4,6 +4,7 @@ import { IMAGE_URL } from "../Constants/URL";
 import { useInView } from 'react-intersection-observer';
 import { RECENT_PICS_URL, SEACRH_PICS_URL } from '../Constants/URL';
 import Modal from 'react-modal';
+import { TailSpin } from 'react-loader-spinner'
 
 function Body({props}) {
   const [pics, setPics] = useState([]);
@@ -57,13 +58,13 @@ function Body({props}) {
                   className={styles.modal}
                 >
                   <div><button onClick={()=>{setShowModal({show:false,data:null})}}>CLOSE X</button></div>
-                  <img src={IMAGE_URL + showModal?.data?.server + "/" + showModal?.data?.id + "_" + showModal?.data?.secret + ".jpg"}></img>
+                  <img alt={showModal?.data?.title} src={IMAGE_URL + showModal?.data?.server + "/" + showModal?.data?.id + "_" + showModal?.data?.secret + ".jpg"}></img>
                 </Modal>}
             {pics && pics.map(function (photo,index) {
               return (
                 <div key={index} id="image-wrapper" className={styles.imageWrapper}>
                   
-                  <img onClick={()=>{setShowModal({show:true,data:photo})}}className={styles.image} src={IMAGE_URL + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg"}></img>
+                  <img alt={photo.title?.slice(0,80)} onClick={()=>{setShowModal({show:true,data:photo})}}className={styles.image} src={IMAGE_URL + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg"}></img>
                   {pics?.length-index===15 && <div ref={ref1}></div>}
                 </div>
               );
@@ -71,6 +72,20 @@ function Body({props}) {
             {!pics && 
               <div className={styles.noResult}>
                 <p>No result found for : <span>{props?.onSearch?.text?.slice(6)}</span></p>
+              </div>
+            }
+            {pics?.length===0 && 
+              <div style={{margin:'auto'}}>
+                <TailSpin
+                  style={{margin:'0 auto'}}
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="green"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
               </div>
             }
           </div>

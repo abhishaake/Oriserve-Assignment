@@ -44,6 +44,7 @@
 }
 
 .image{
+    color: black;
     box-shadow: 2px 2px gray;
     border: 5px solid lightgray;
     max-width: 98%;
@@ -82,6 +83,7 @@
     border-radius: 15px;
 }
 .modal>img{
+    color: white;
     margin-top: 10px;
     max-width: 80vw;
     max-height: 90vh;

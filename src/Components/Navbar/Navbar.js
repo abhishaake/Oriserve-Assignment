@@ -82,6 +82,7 @@ function Navbar({ props }) {
         <div className={styles.searchBox}>
           <div className={styles.heading}>Search Photos</div>
           <input
+          placeholder="Search..."
             value={searchParam}
             onKeyDown={(e) => handleKeyPress(e)}
             onChange={(e) => onTextChangeHandler(e.target.value)}
