@@ -5,21 +5,22 @@ import { RECENT_PICS_URL, SEACRH_PICS_URL } from '../Constants/URL';
 
 function Navbar({ props }) {
   const [cookies, setCookie, removeCookie] = useCookies();
-  const [searchParam, setSearchParam] = useState("");
-  const [query, setQuery] = useState([]);
+  const [searchParam, setSearchParam] = useState(""); // stores the search box text
+  const [query, setQuery] = useState([]); // stores the items from cookies user hass
 
 
   const handleCookies = (val) => {
     if(!val) return;
+
     if (cookies.hasOwnProperty("queries")) {
       let q = cookies.queries.split(",");
-      if (!q) {
+      if (!q) { // if empty, add the cookie
         q = [val];
         setQuery(q);
         setCookie("queries", q.toString());
       } else if (q && q.indexOf(val) !== -1) {
         // already present
-      } else {
+      } else { // cookie present, add the value
         q.push(val);
         setQuery(q);
         setCookie("queries", q.toString());
@@ -34,28 +35,46 @@ function Navbar({ props }) {
     setQuery(cookies?.queries?.split(","));
   }, []);
 
-  const clearCookies = () => {
+  const clearCookies = () => { // clearing out cookie data
     setQuery([]);
     removeCookie("queries");
   };
 
   const update = (value) => {
-    setSearchParam(value);
+    setSearchParam(value); // updating state
     handleCookies(value);
-    props.searchHandler("&text="+value);
-    props.getData(SEACRH_PICS_URL,1,"&text="+value);
-    props.setSuggestionBox(false);
+    props.searchHandler(true,"&text="+value); // setting the app to search mode
+    props.getData(SEACRH_PICS_URL,1,"&text="+value); // fetching data
+    props.setSuggestionBox(false); 
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      props.searchHandler("&text="+searchParam);
-      props.getData(SEACRH_PICS_URL,1,"&text="+searchParam);
+      if(searchParam){
+        props.searchHandler(true,"&text="+searchParam);
+        props.getData(SEACRH_PICS_URL,1,"&text="+searchParam);
+      }
+      else{
+        props.searchHandler(false,null);
+        props.getData(RECENT_PICS_URL,1,null);
+      }
       handleCookies(searchParam);
       props.setSuggestionBox(false);
     }
   };
 
+  const onTextChangeHandler=(val)=>{
+    setSearchParam(val);
+    if(!val || val.length<3) return; // no fetching if input text is less than 3 characters
+    props.searchHandler(true,"&text="+val);
+    props.getData(SEACRH_PICS_URL,1,"&text="+val);
+  }
+
+  useEffect(()=>{
+    setTimeout(() => {
+      handleCookies(searchParam); // only update cookie when user has searched for more than 3 char and data has been loaded successfully
+    }, 500);
+  },[props.showSuggestionBox]);
 
   return (
     <>
@@ -65,7 +84,7 @@ function Navbar({ props }) {
           <input
             value={searchParam}
             onKeyDown={(e) => handleKeyPress(e)}
-            onChange={(e) => setSearchParam(e.target.value)}
+            onChange={(e) => onTextChangeHandler(e.target.value)}
             onClick={()=>props.setSuggestionBox(true)}
             onFocus={() => props.setSuggestionBox(true)}
           />

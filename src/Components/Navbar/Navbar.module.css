@@ -2,7 +2,7 @@
     position: absolute;
     top: 0;
     width: 100vw;
-    min-width: 400px;
+    min-width: 375px;
     height: 95px;
     background-color: black;
 }
@@ -48,8 +48,8 @@
     border-radius: 8px;
     z-index: 999;
     height: fit-content;
-    width: 70%;
-    max-width: 375px;
+    width: 90%;
+    max-width: 420px;
     background-color: white;
     position: relative;
 }
@@ -64,9 +64,9 @@
     width: 63px;
     margin-left: auto;
     margin-right: 0;
+    cursor: pointer;
 }
 .suggestionBox>button:hover{
-    cursor: pointer;
     font-size: 11px;
 }
 .suggestionBox>div{

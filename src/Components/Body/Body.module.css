@@ -57,4 +57,44 @@
     max-height: 270px;
     object-fit: contain;
 }
-   
+.noResult{
+    color: black;
+    font-weight: 800;
+    margin: auto auto;
+    font-size: 28px;
+}
+.noResult>p>span{
+    font-style: italic;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.modal{
+    padding: 15px 20px;
+    margin: 110px auto 10px auto;
+    width: fit-content;
+    height: fit-content;
+    max-width: 90vw;
+    max-height: 92vh;
+    text-align: center;
+    border: none;
+    background-color: black;
+    border-radius: 15px;
+}
+.modal>img{
+    margin-top: 10px;
+    max-width: 80vw;
+    max-height: 90vh;
+}
+.modal>div>button{
+    border: 1px solid black;
+    height: 30px;
+    width: 80px;
+    border-radius: 5px;
+    float: right;
+    margin-right: 0;
+    margin-left: auto;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+}
